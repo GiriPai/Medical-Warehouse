@@ -61,26 +61,31 @@ router.get("/", async (req, res) => {
 
 // @route   POST api/hospitals/
 // @desc    Creating a Hospital
-// @access  Private
+// @access  Private (Admin)
 router.post(
   "/",
   [
     auth,
     upload.single("avatar"),
-    check("name", "Name is required")
-      .not()
-      .isEmpty(),
-    check("registerNumber", "Register Number is required")
-      .not()
-      .isEmpty(),
-    check("email", "Please include a valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 }),
-    check("division", "Please include the division")
-      .not()
-      .isEmpty()
+    [
+      check("name", "Name is required")
+        .not()
+        .isEmpty(),
+      check("registerNumber", "Register Number is required")
+        .not()
+        .isEmpty(),
+      check("email", "Please include a valid email").isEmail(),
+      check(
+        "password",
+        "Please enter a password with 6 or more characters"
+      ).isLength({ min: 6 }),
+      check("branch", "Please include the division")
+        .not()
+        .isEmpty(),
+      check("address", "Please enter the address")
+        .not()
+        .isEmpty()
+    ]
   ],
   async (req, res) => {
     if (!req.admin) {
@@ -94,7 +99,15 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password, registerNumber, division } = req.body;
+    const {
+      name,
+      email,
+      password,
+      registerNumber,
+      branch,
+      phone,
+      address
+    } = req.body;
 
     try {
       let hospital = await Hospital.findOne({ email: email });
@@ -106,6 +119,7 @@ router.post(
       }
 
       const admin = req.admin.id;
+      const isActive = false;
 
       //   create instance of hospital
       hospital = new Hospital({
@@ -113,8 +127,11 @@ router.post(
         registerNumber,
         email,
         password,
-        division,
-        admin
+        branch,
+        phone,
+        address,
+        admin,
+        isActive
       });
 
       //bcrypt
@@ -124,13 +141,19 @@ router.post(
       //Save image url
       hospital.avatar = req.file.path;
 
+      // Getting admin for getting division and updateing hospital field of admin collection in database
+      let updateAdmin = await Admin.findOne({ _id: admin });
+      if (updateAdmin.division) hospital.division = updateAdmin.division;
+
+      hospital.isActive = true;
+
       // save hospital
       await hospital.save();
 
-      // update hospital field of admin collection in database
-      let updateAdmin = await Admin.findOne({ _id: admin });
+      //updating hospital array
       updateAdmin.hospitals.unshift(hospital._id);
       await updateAdmin.save();
+
       return res.json(hospital);
     } catch (err) {
       console.error(err);
@@ -138,5 +161,36 @@ router.post(
     }
   }
 );
+
+// @route   Delete api/hospitals/:hospital_id
+// @desc    Delete Hospital with ID by Admin
+// @access  Private (Admin)
+router.delete("/:hospital_id", auth, async (req, res) => {
+  try {
+    if (!req.admin) {
+      return res
+        .status(401)
+        .json({ msg: "You are not authorized to access this url" });
+    }
+
+    const hospital = await Hospital.findOneAndDelete({
+      _id: req.params.hospital_id
+    });
+
+    const createdAdmin = await Admin.findById(hospital.admin);
+
+    removeIndex = createdAdmin.hospitals
+      .map(hospital => hospital)
+      .indexOf(req.params.hospital_id);
+
+    createdAdmin.hospitals.splice(removeIndex);
+    await createdAdmin.save();
+
+    return res.status(400).json({ msg: "Deletion Successful" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
 
 module.exports = router;

@@ -67,7 +67,13 @@ router.get("/", auth, async (req, res) => {
 router.get("/me", [auth], async (req, res) => {
   try {
     const adminHospitals = await Admin.findById(req.admin.id)
-      .populate("hospitals", ["name", "registerNumber", "email", "division"])
+      .populate("hospitals", [
+        "name",
+        "registerNumber",
+        "email",
+        "division",
+        "phone"
+      ])
       .select("-password");
 
     return res.json(adminHospitals);
@@ -97,6 +103,9 @@ router.post(
     ).isLength({ min: 6 }),
     check("division", "Please include the division")
       .not()
+      .isEmpty(),
+    check("phone", "Phone number is required")
+      .not()
       .isEmpty()
   ],
   async (req, res) => {
@@ -105,7 +114,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password, registerNumber, division } = req.body;
+    const { name, email, password, registerNumber, division, phone } = req.body;
 
     try {
       let admin = await Admin.findOne({ email: email });
@@ -122,7 +131,8 @@ router.post(
         registerNumber,
         email,
         password,
-        division
+        division,
+        phone
       });
 
       //  bcryptjs

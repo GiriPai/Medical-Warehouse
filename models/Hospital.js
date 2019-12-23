@@ -24,21 +24,34 @@ const HospitalSchema = new mongoose.Schema({
     required: true
   },
   address: {
-    type: String
+    type: String,
+    required: true
   },
   branch: {
-    type: String
+    type: String,
+    required: true
   },
   avatar: {
     type: String
   },
-  contact: {
+  phone: {
     type: String
+  },
+  isActive: {
+    type: Boolean,
+    required: true
   },
   admin: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "admin"
   },
+  doctors: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "doctor"
+    }
+  ],
+
   created_at: {
     type: Date,
     default: Date.now
