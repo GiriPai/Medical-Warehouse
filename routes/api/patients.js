@@ -48,8 +48,13 @@ const upload = multer({
 });
 // End File Upload
 
-// @route   Get api/patient/
-// @desc    Get all patient
+// HTML to IMAGE
+const pdf = require("html-pdf");
+
+// End HTML to IMAGE
+
+// @route   Get api/patients/
+// @desc    Get all patients
 // @access  Public
 router.get("/", async (req, res) => {
   try {
@@ -161,7 +166,6 @@ router.post(
         margin: 1
       };
       const str = patient._id;
-      console.log(str);
 
       await qrcode.toFile(path, `${str}`, opts);
       createdPatient = await Patient.findOne(patient._id);
@@ -169,7 +173,30 @@ router.post(
       createdPatient.qrcode = path;
       createdPatient.save();
 
-      //   process.exit(1);
+      const pdfTemplate = require("../../uploads/patient/templates/idTemplate");
+
+      pdf
+        .create(
+          pdfTemplate({
+            name: `${createdPatient.name}`,
+            registerNumber: `${createdPatient.registerNumber}`,
+            id: `${createdPatient._id}`,
+            dob: `${createdPatient.dob}`,
+            avatar: `${createdPatient.avatar}`,
+            qrcode: `${createdPatient.qrcode}`,
+            address: `${createdPatient.address}`
+          }),
+          {}
+        )
+        .toFile(
+          `uploads/patient/cards/${createdPatient.registerNumber}.pdf`,
+          err => {
+            if (err) {
+              return console.log("error");
+            }
+          }
+        );
+
       return res.json(createdPatient);
     } catch (err) {
       console.error(err);
@@ -177,36 +204,5 @@ router.post(
     }
   }
 );
-
-// @route   Delete api/hospitals/:hospital_id
-// @desc    Delete Hospital with ID by Admin
-// @access  Private (Admin)
-router.delete("/:hospital_id", auth, async (req, res) => {
-  try {
-    if (!req.admin) {
-      return res
-        .status(401)
-        .json({ msg: "You are not authorized to access this url" });
-    }
-
-    const hospital = await Hospital.findOneAndDelete({
-      _id: req.params.hospital_id
-    });
-
-    const createdAdmin = await Admin.findById(hospital.admin);
-
-    removeIndex = createdAdmin.hospitals
-      .map(hospital => hospital)
-      .indexOf(req.params.hospital_id);
-
-    createdAdmin.hospitals.splice(removeIndex);
-    await createdAdmin.save();
-
-    return res.status(400).json({ msg: "Deletion Successful" });
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ msg: "Internal Server Error" });
-  }
-});
 
 module.exports = router;
