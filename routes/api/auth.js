@@ -9,6 +9,7 @@ const { check, validationResult } = require("express-validator");
 const Admin = require("../../models/Admin");
 const Hospital = require("../../models/Hospital");
 const Doctor = require("../../models/Doctor");
+const Patient = require("../../models/Patient");
 
 // @route   POST api/auth/admin/login
 // @desc    Authenticate Admin and get Token (Login Route for admin)
@@ -163,8 +164,67 @@ router.post(
       }
 
       const payload = {
-        user: doctor._id,
-        role: "doctor"
+        user: {
+          id: doctor._id,
+          role: "doctor"
+        }
+      };
+
+      await jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        { expiresIn: 3600000 },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ token });
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: "Internal Server Error" });
+    }
+  }
+);
+
+// @route   POST api/auth/patient/login
+// @desc    Authenticate Patient and get Token (Login Route for patient)
+// @access  Public
+router.post(
+  "/patient/login",
+  [
+    check("email", "Please include a valid email").isEmail(),
+    check("password", "Passord is invalid").exists()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req.body);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+
+    try {
+      let patient = await Patient.findOne({ email: email });
+
+      if (!patient) {
+        return res
+          .status(400)
+          .json({ errors: [{ error: "User doesn't exists" }] });
+      }
+
+      const isMatch = await bcrypt.compare(password, patient.password);
+
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "Invalid Credentials" }] });
+      }
+
+      const payload = {
+        user: {
+          id: patient._id,
+          role: "patient"
+        }
       };
 
       await jwt.sign(

@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const config = require("config");
 const qrcode = require("qrcode");
 const { check, validationResult } = require("express-validator");
+const pdf = require("html-pdf");
 
 // Import Middlewares
 const auth = require("../../middleware/auth");
@@ -47,11 +48,6 @@ const upload = multer({
   fileFilter: fileFilter
 });
 // End File Upload
-
-// HTML to IMAGE
-const pdf = require("html-pdf");
-
-// End HTML to IMAGE
 
 // @route   Get api/patients/
 // @desc    Get all patients
@@ -184,7 +180,8 @@ router.post(
             dob: `${createdPatient.dob}`,
             avatar: `${createdPatient.avatar}`,
             qrcode: `${createdPatient.qrcode}`,
-            address: `${createdPatient.address}`
+            address: `${createdPatient.address}`,
+            gender: `${createdPatient.gender}`
           }),
           {}
         )

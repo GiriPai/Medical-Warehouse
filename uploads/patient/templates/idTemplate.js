@@ -5,7 +5,8 @@ module.exports = ({
   dob,
   avatar,
   qrcode,
-  address
+  address,
+  gender
 }) => {
   return `
     <style>
@@ -47,13 +48,14 @@ module.exports = ({
         <p><button>Medical Record Access Card</button></p>
         <img src=http://localhost:5000/${avatar} alt="${name}" style="width:50%">
         <h1>${name}</h1>
-        <p class="title">${registerNumber}, ${dob}</p>
+        <p class="title">${registerNumber} - ${dob} - ${gender}</p>
         <p>${address}</p>
         <p><button>${id}</button></p>
     </div>
     <div class="card">
         <p><button>Medical Record Access Card</button></p>
         <img src=http://localhost:5000/${qrcode} alt="${registerNumber}" style="width:50%">
+        <h1> </h1>
         <p class="title">${id}</p>
         <p>This card gives access all your medical records. This card can be access by the doctors and hospitals.</p>
         <p><button>${registerNumber}</button></p>
