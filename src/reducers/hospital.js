@@ -1,5 +1,6 @@
 import {
     GET_HOSPITALS,
+    GET_HOSPITAL,
     ADD_HOSPITAL,
     HOSPITAL_ERROR,
     CLEAR_HOSPITALS
@@ -19,6 +20,13 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 hospitals: payload,
+                hospital: null,
+                loading: false
+            };
+        case GET_HOSPITAL:
+            return {
+                ...state,
+                hospital: payload,
                 loading: false
             };
 

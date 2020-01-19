@@ -17,7 +17,7 @@ const HospitalItem = ({ auth, hospital, deleteHospital, getHospitals }) => {
                 <td>{hospital.doctors.length}</td>
                 <td>
                     <Link
-                        to={`/hospital/${hospital._id}`}
+                        to={`/hospitals/profile/${hospital._id}`}
                         className="btn btn-primary"
                     >
                         <i className="fas fa-info-circle"></i>
@@ -47,7 +47,6 @@ HospitalItem.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth,
-    getHospitals: PropTypes.func.isRequired
+    auth: state.auth
 });
 export default connect(mapStateToProps, { getHospitals })(HospitalItem);

@@ -1,35 +1,24 @@
 import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
+
 import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
-import { getHospitals } from "../../actions/hospital";
-import { deleteHospital } from "../../actions/hospital";
 
+import { getDoctors } from "../../actions/doctor";
 import Spinner from "../layouts/Spinner";
-import HospitalItem from "./HospitalItem";
+import DoctorItem from "./DoctorItem";
 import Alert from "../layouts/Alert";
 
-const Hospitals = ({
-    getHospitals,
-    hospital: { hospitals, loading },
-    deleteHospital
-}) => {
+const Doctors = ({ doctor, getDoctors }) => {
     useEffect(() => {
-        console.log("rerender");
-        // datatable initializing
-        const script = document.createElement("script");
-        script.src = "/js_config/datatable.js";
-        script.async = true;
-        document.body.appendChild(script);
-        // end datatable initializing
-    }, []);
-    useEffect(() => {
-        getHospitals();
+        getDoctors();
     }, []);
 
-    return loading ? (
-        <Spinner />
+    return doctor.loading ? (
+        <Fragment>
+            <Spinner />
+        </Fragment>
     ) : (
         <Fragment>
             {/* Content Wrapper. Contains page content */}
@@ -39,7 +28,7 @@ const Hospitals = ({
                     <div className="container-fluid">
                         <div className="row mb-2">
                             <div className="col-sm-6">
-                                <h1>Hospitals</h1>
+                                <h1>Doctors</h1>
                             </div>
                             <div className="col-sm-6">
                                 <ol className="breadcrumb float-sm-right">
@@ -47,7 +36,7 @@ const Hospitals = ({
                                         <Link to="/home">Home</Link>
                                     </li>
                                     <li className="breadcrumb-item active">
-                                        Hospitals
+                                        Doctors
                                     </li>
                                 </ol>
                             </div>
@@ -65,15 +54,15 @@ const Hospitals = ({
                                     <div className="row">
                                         <div className="col">
                                             <h3 className="card-title">
-                                                Hospitals
+                                                Doctors
                                             </h3>
                                         </div>
 
-                                        <Link to="/hospitals/create">
+                                        {/* <Link to="/doctors/create">
                                             <button className="btn btn-primary">
                                                 Create New
                                             </button>
-                                        </Link>
+                                        </Link> */}
                                     </div>
                                 </div>
 
@@ -81,37 +70,35 @@ const Hospitals = ({
                                 <div className="card-body">
                                     <table
                                         id="example1"
-                                        className="table table-bordered table-striped"
+                                        className="table table-bordered table-striped projects"
                                     >
                                         <thead>
                                             <tr>
-                                                <th>Hospital ID</th>
+                                                <th>Avatar</th>
                                                 <th>Name</th>
-                                                <th>Branch</th>
+                                                <th>Register Number</th>
+                                                <th>Hospital</th>
                                                 <th>Division</th>
-                                                <th>Doctors</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
 
                                         <tbody>
-                                            {hospitals.map(hospital => (
-                                                <HospitalItem
-                                                    key={hospital._id}
-                                                    hospital={hospital}
-                                                    deleteHospital={
-                                                        deleteHospital
-                                                    }
+                                            {doctor.doctors.map(doc => (
+                                                <DoctorItem
+                                                    key={doc._id}
+                                                    doctor={doc}
+                                                    // deleteDoctor={deleteDoctor}
                                                 />
                                             ))}
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th>Hospital ID</th>
+                                                <th>Avatar</th>
                                                 <th>Name</th>
-                                                <th>Branch</th>
+                                                <th>Register Number</th>
+                                                <th>Hospital</th>
                                                 <th>Division</th>
-                                                <th>Doctors</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </tfoot>
@@ -132,15 +119,13 @@ const Hospitals = ({
     );
 };
 
-Hospitals.propTypes = {
-    getHospitals: PropTypes.func.isRequired,
-    hospital: PropTypes.object.isRequired,
-    deleteHospital: PropTypes.func.isRequired
+Doctors.propTypes = {
+    doctor: PropTypes.object.isRequired,
+    getDoctors: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-    hospital: state.hospital
+    doctor: state.doctor
 });
-export default connect(mapStateToProps, { getHospitals, deleteHospital })(
-    Hospitals
-);
+
+export default connect(mapStateToProps, { getDoctors })(Doctors);

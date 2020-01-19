@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout, loadUser } from "../../actions/auth";
-// import { getCurrentProfile } from "../../actions/profile";
 
 import Spinner from "./Spinner";
 
@@ -108,25 +107,19 @@ const Navigation = ({ auth, logout }) => {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link
-                                    to="pages/widgets.html"
-                                    className="nav-link"
-                                >
+                                <Link to="/doctors" className="nav-link">
                                     <i className=" nav-icon fas fa-user-md"></i>
                                     <p>Doctors</p>
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link
-                                    to="pages/widgets.html"
-                                    className="nav-link"
-                                >
+                                <Link to="/patients" className="nav-link">
                                     <i className="nav-icon fas fa-procedures" />
 
                                     <p>Patients</p>
                                 </Link>
                             </li>
-                            <li className="nav-item has-treeview">
+                            {/* <li className="nav-item has-treeview">
                                 <Link to="#" className="nav-link">
                                     <i className="nav-icon fas fa-copy" />
                                     <p>
@@ -372,7 +365,7 @@ const Navigation = ({ auth, logout }) => {
                                         </Link>
                                     </li>
                                 </ul>
-                            </li>
+                            </li> */}
                         </ul>
                     </nav>
                 </div>

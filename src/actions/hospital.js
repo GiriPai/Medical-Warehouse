@@ -2,6 +2,7 @@ import axios from "axios";
 import { setAlert } from "./alert";
 import {
     GET_HOSPITALS,
+    GET_HOSPITAL,
     HOSPITAL_ERROR,
     ADD_HOSPITAL,
     SET_ALERT
@@ -17,13 +18,39 @@ export const getHospitals = () => async dispatch => {
             payload: res.data
         });
     } catch (err) {
+        if (err.response) {
+            dispatch({
+                type: HOSPITAL_ERROR,
+                payload: {
+                    msg: err.response.statusText,
+                    status: err.response.status
+                }
+            });
+        }
+    }
+};
+
+// Get Hospital with id
+export const getHospital = id => async dispatch => {
+    try {
+        const res = await axios.get(
+            `http://localhost:5000/api/hospitals/${id}`
+        );
+
         dispatch({
-            type: HOSPITAL_ERROR,
-            payload: {
-                msg: err.response.statusText,
-                status: err.response.status
-            }
+            type: GET_HOSPITAL,
+            payload: res.data
         });
+    } catch (err) {
+        if (err.response) {
+            dispatch({
+                type: HOSPITAL_ERROR,
+                payload: {
+                    msg: err.response.statusText,
+                    status: err.response.status
+                }
+            });
+        }
     }
 };
 

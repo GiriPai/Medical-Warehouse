@@ -1,67 +1,75 @@
-import React, { useState, Fragment } from "react";
-import { withRouter } from "react-router-dom";
-import Breadcrumb from "../breadcrumbs/Breadcrumb";
-
+import React, { Fragment, useState, useEffect } from "react";
+import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 
-import { connect } from "react-redux";
-import { addHospital, getHospitals } from "../../actions/hospital";
+import Breadcrumb from "../breadcrumbs/Breadcrumb";
 import Alert from "../layouts/Alert";
+import Spinner from "../layouts/Spinner";
 
-const CreateHospital = ({ addHospital, history }) => {
+import { connect } from "react-redux";
+import { addPatient } from "../../actions/patient";
+
+const CreatePatient = ({ addPatient, history }) => {
+    useEffect(() => {
+        console.log("rerender");
+    }, []);
     const [formData, setFormData] = useState({
+        registerNumber: "",
+        name: "",
         email: "",
         password: "",
-        registerNumber: "",
-        branch: "",
-        name: "",
+        dob: "",
+        gender: "",
         address: "",
         phone: "",
-        avatar: null,
+        avatar: "",
         isActive: false
     });
 
-    let {
+    const {
+        registerNumber,
+        name,
         email,
         password,
-        registerNumber,
-        branch,
-        name,
+        dob,
+        gender,
         address,
         phone,
         avatar,
         isActive
     } = formData;
 
-    const data = new FormData();
-
-    const onChange = e =>
+    const onChange = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    const onChangeFileHandler = event => {
-        // console.log(event.target.files[0]);
-        setFormData({ ...formData, avatar: event.target.files[0] });
     };
 
-    const handleCheckClick = e => {
+    const handleCheckClick = () => {
         setFormData({ ...formData, isActive: !isActive });
     };
+
+    const onChangeFileHandler = event => {
+        setFormData({
+            ...formData,
+            avatar: event.target.files[0]
+        });
+    };
+
     const onSubmit = e => {
         e.preventDefault();
-        data.append("registerNumber", registerNumber);
 
+        const data = new FormData();
+        data.append("registerNumber", registerNumber);
         data.append("name", name);
         data.append("email", email);
         data.append("password", password);
-
-        data.append("branch", branch);
+        data.append("dob", dob);
+        data.append("gender", gender);
         data.append("address", address);
         data.append("phone", phone);
+        data.append("avatar", avatar);
         data.append("isActive", isActive);
 
-        data.append("avatar", avatar);
-
-        addHospital(data, history);
+        addPatient(data, history);
     };
 
     return (
@@ -69,12 +77,12 @@ const CreateHospital = ({ addHospital, history }) => {
             {/* Content Wrapper. Contains page content */}
             <div className="content-wrapper">
                 <Breadcrumb
-                    title="Create A New Hospital"
+                    title="Create A New Patient"
                     m1="Home"
                     m1url="/home"
-                    m2="Hospitals"
-                    m2url="/hospitals"
-                    m3="Create Hospital"
+                    m2="Patients"
+                    m2url="/patients"
+                    m3="Register Patient"
                 />
                 <Alert />
                 <section className="content">
@@ -86,7 +94,7 @@ const CreateHospital = ({ addHospital, history }) => {
                                 <div className="card card-primary">
                                     <div className="card-header">
                                         <h3 className="card-title">
-                                            Create Hospital
+                                            Create Patient
                                         </h3>
                                     </div>
                                     {/* /.card-header */}
@@ -101,8 +109,42 @@ const CreateHospital = ({ addHospital, history }) => {
                                             >
                                                 <div className="card-body">
                                                     <div className="form-group">
+                                                        <label htmlFor="registerNumber">
+                                                            Register Number
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            id="registerNumber"
+                                                            placeholder="Register Number"
+                                                            name="registerNumber"
+                                                            value={
+                                                                registerNumber
+                                                            }
+                                                            onChange={e =>
+                                                                onChange(e)
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="name">
+                                                            Name
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            id="name"
+                                                            placeholder="Name"
+                                                            name="name"
+                                                            value={name}
+                                                            onChange={e =>
+                                                                onChange(e)
+                                                            }
+                                                        />
+                                                    </div>
+                                                    <div className="form-group">
                                                         <label htmlFor="exampleInputEmail1">
-                                                            Email address
+                                                            Email
                                                         </label>
                                                         <input
                                                             type="email"
@@ -133,40 +175,22 @@ const CreateHospital = ({ addHospital, history }) => {
                                                         />
                                                     </div>
                                                     <div className="form-group">
-                                                        <label htmlFor="registerNumber">
-                                                            registerNumber
+                                                        <label htmlFor="phone">
+                                                            Phone
                                                         </label>
                                                         <input
                                                             type="text"
                                                             className="form-control"
-                                                            id="registerNumber"
-                                                            placeholder="registerNumber"
-                                                            name="registerNumber"
-                                                            value={
-                                                                registerNumber
-                                                            }
+                                                            id="phone"
+                                                            placeholder="Phone"
+                                                            name="phone"
+                                                            value={phone}
                                                             onChange={e =>
                                                                 onChange(e)
                                                             }
                                                         />
                                                     </div>
 
-                                                    <div className="form-group">
-                                                        <label htmlFor="branch">
-                                                            Branch
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            className="form-control"
-                                                            id="branch"
-                                                            placeholder="Branch"
-                                                            name="branch"
-                                                            value={branch}
-                                                            onChange={e =>
-                                                                onChange(e)
-                                                            }
-                                                        />
-                                                    </div>
                                                     <div className="form-group">
                                                         <div className="custom-control custom-switch">
                                                             <input
@@ -204,54 +228,49 @@ const CreateHospital = ({ addHospital, history }) => {
                                             >
                                                 <div className="card-body">
                                                     <div className="form-group">
-                                                        <label htmlFor="name">
-                                                            Name
+                                                        <label htmlFor="gender">
+                                                            Gender
                                                         </label>
-                                                        <input
-                                                            type="text"
+                                                        <select
                                                             className="form-control"
-                                                            id="name"
-                                                            placeholder="Name"
-                                                            name="name"
-                                                            value={name}
+                                                            id="gender"
+                                                            name={gender}
+                                                            value={gender}
                                                             onChange={e =>
                                                                 onChange(e)
                                                             }
-                                                        />
+                                                        >
+                                                            <option value="">
+                                                                --- Select ---
+                                                            </option>
+
+                                                            <option value="Male">
+                                                                Male
+                                                            </option>
+                                                            <option value="Female">
+                                                                Female
+                                                            </option>
+                                                            <option value="Others">
+                                                                Others
+                                                            </option>
+                                                        </select>
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="phone">
-                                                            Phone
+                                                            Birth Date
                                                         </label>
                                                         <input
-                                                            type="text"
+                                                            type="date"
                                                             className="form-control"
-                                                            id="phone"
-                                                            placeholder="Phone"
-                                                            name="phone"
-                                                            value={phone}
+                                                            id="dob"
+                                                            placeholder="DOB"
+                                                            name="dob"
+                                                            value={dob}
                                                             onChange={e =>
                                                                 onChange(e)
                                                             }
                                                         />
                                                     </div>
-                                                    <div className="form-group">
-                                                        <label htmlFor="address">
-                                                            Address
-                                                        </label>
-                                                        <textarea
-                                                            type="textarea"
-                                                            className="form-control"
-                                                            id="address"
-                                                            placeholder="Enter address"
-                                                            name="address"
-                                                            value={address}
-                                                            onChange={e =>
-                                                                onChange(e)
-                                                            }
-                                                        />
-                                                    </div>
-
                                                     <div className="form-group">
                                                         <label htmlFor="exampleInputFile">
                                                             File input
@@ -273,18 +292,28 @@ const CreateHospital = ({ addHospital, history }) => {
                                                                     className="custom-file-label"
                                                                     htmlFor="exampleInputFile"
                                                                 >
-                                                                    Choose file
+                                                                    Profile
+                                                                    Image
                                                                 </label>
                                                             </div>
-                                                            {/* <div className="input-group-append">
-                                                                <span
-                                                                    className="input-group-text"
-                                                                    id
-                                                                >
-                                                                    Upload
-                                                                </span>
-                                                            </div> */}
                                                         </div>
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label htmlFor="address">
+                                                            Address
+                                                        </label>
+                                                        <textarea
+                                                            type="textarea"
+                                                            className="form-control"
+                                                            id="address"
+                                                            placeholder="Enter address"
+                                                            name="address"
+                                                            rows="5"
+                                                            value={address}
+                                                            onChange={e =>
+                                                                onChange(e)
+                                                            }
+                                                        />
                                                     </div>
                                                 </div>
                                                 {/* /.card-body */}
@@ -319,8 +348,8 @@ const CreateHospital = ({ addHospital, history }) => {
     );
 };
 
-CreateHospital.propTypes = {
-    addHospital: PropTypes.func.isRequired
+CreatePatient.propTypes = {
+    addPatient: PropTypes.func.isRequired
 };
 
-export default connect(null, { addHospital })(withRouter(CreateHospital));
+export default connect(null, { addPatient })(withRouter(CreatePatient));
