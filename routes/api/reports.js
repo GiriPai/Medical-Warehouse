@@ -138,7 +138,7 @@ router.post(
   ],
   async (req, res) => {
     try {
-      if (!req.hospital) {
+      if (!req.doctor) {
         return res
           .status(401)
           .json({ error: "You are not authorized to access this route" });

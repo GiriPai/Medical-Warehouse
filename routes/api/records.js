@@ -96,17 +96,18 @@ router.post(
   async (req, res) => {
     try {
       if (!req.doctor) {
-        return res
-          .status(401)
-          .json({ error: "You are not authorized to access this route" });
+        return res.status(401).json({
+          error: "You are not authorized to access this route"
+        });
       }
 
-      const errors = validationResult(req.body);
-      if (!errors.isEmpty) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
-
-      const patient = await Patient.findOne({ _id: req.params.patientId });
+      const patient = await Patient.findOne({
+        _id: req.params.patientId
+      });
       if (!patient) {
         return res.status(404).json({ errors: [{ error: "Invalid URL" }] });
       }
@@ -136,9 +137,8 @@ router.post(
       return res.json(savedRecord);
     } catch (err) {
       console.log(err);
-      return res
-        .status(500)
-        .json({ error: [{ error: "Internal Server Errror" }] });
+
+      return res.status(500).json({ errors: "Internal Server Error" });
     }
   }
 );
