@@ -1,8 +1,6 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Redirect } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { Fragment, useState } from "react";
+
 import { connect } from "react-redux";
-import Alert from "../layouts/Alert";
 import { updateProfile } from "../../../actions/profile";
 
 const Profile = ({ profile, updateProfile, history }) => {
@@ -196,7 +194,11 @@ const Profile = ({ profile, updateProfile, history }) => {
             <div className="card card-profile">
               <div className="card-avatar">
                 <a href="#pablo">
-                  <img className="img" src={`/${profile.avatar}`} />
+                  <img
+                    className="img"
+                    alt="user-profile"
+                    src={`/${profile.avatar}`}
+                  />
                 </a>
               </div>
               <div className="card-body">

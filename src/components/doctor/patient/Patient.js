@@ -9,7 +9,6 @@ import ReportItem from "./ReportItem";
 import ReportDetails from "./ReportDetails";
 import AddRecord from "./AddRecord";
 import Alert from "../layouts/Alert";
-import AddReport from "./AddReport";
 
 const Patient = ({ match, patient, loading, getPatient, history }) => {
   useEffect(() => {
@@ -133,6 +132,7 @@ const Patient = ({ match, patient, loading, getPatient, history }) => {
                           <div className="picture-container">
                             <div className="picture">
                               <img
+                                alt="user-avatar"
                                 src={`/${patient.patient.avatar}`}
                                 className="picture-src"
                                 id="wizardPicturePreview"

@@ -23,7 +23,7 @@ const Navigation = ({ profile: { profile }, logout }) => {
         <div className="sidebar-wrapper">
           <div className="user">
             <div className="photo">
-              <img src={`/${avatar}`} />
+              <img alt="user-profile" src={`/${avatar}`} />
             </div>
             <div className="user-info">
               <a

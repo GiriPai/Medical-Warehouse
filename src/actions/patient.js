@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_PATIENT, CLEAR_PATIENT, ADD_RECORD } from "./types";
+import { GET_PATIENT, CLEAR_PATIENT } from "./types";
 import { setAlert } from "./alert";
 
 export const getPatient = id => async dispatch => {
@@ -34,11 +34,7 @@ export const addRecord = (id, formData) => async dispatch => {
     };
     const body = JSON.stringify(formData);
 
-    const res = await axios.post(
-      `http://localhost:5000/api/records/${id}`,
-      body,
-      config
-    );
+    await axios.post(`http://localhost:5000/api/records/${id}`, body, config);
     await dispatch(setAlert("Record Added", "success", 5000));
     await dispatch(getPatient(id));
   } catch (err) {
@@ -58,10 +54,7 @@ export const addReport = (id, data, history) => async dispatch => {
     // };
     const body = JSON.stringify(data);
 
-    const res = await axios.post(
-      `http://localhost:5000/api/reports/${id}`,
-      body
-    );
+    await axios.post(`http://localhost:5000/api/reports/${id}`, body);
     await dispatch(setAlert("Reports Added", "success", 5000));
     await dispatch(getPatient(id));
     await history.push(`{/patient/${id}}`);
