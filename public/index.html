@@ -15,6 +15,35 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!-- Vendor CSS -->
+    <link
+      href="%PUBLIC_URL%/vendors/bower_components/fullcalendar/dist/fullcalendar.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="%PUBLIC_URL%/vendors/bower_components/animate.css/animate.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="%PUBLIC_URL%/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="%PUBLIC_URL%/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="%PUBLIC_URL%/vendors/bower_components/google-material-color/dist/palette.css"
+      rel="stylesheet"
+    />
+    <link
+      href="%PUBLIC_URL%/vendors/bootgrid/jquery.bootgrid.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link href="%PUBLIC_URL%/css/app.min.1.css" rel="stylesheet" />
+    <link href="%PUBLIC_URL%/css/app.min.2.css" rel="stylesheet" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
@@ -24,9 +53,9 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>Medical Repo Hospital</title>
   </head>
-  <body>
+  <body data-ma-header="teal">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <!--
@@ -39,5 +68,37 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <script src="%PUBLIC_URL%/vendors/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/Waves/dist/waves.min.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bootstrap-growl/bootstrap-growl.min.js"></script>
+
+    <script src="%PUBLIC_URL%/vendors/bower_components/moment/min/moment.min.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/simpleWeather/jquery.simpleWeather.min.js"></script>
+
+    <script src="%PUBLIC_URL%/vendors/bower_components/flot/jquery.flot.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/flot/jquery.flot.resize.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/flot.curvedlines/curvedLines.js"></script>
+    <script src="%PUBLIC_URL%/vendors/sparklines/jquery.sparkline.min.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/jquery.easy-pie-chart/dist/jquery.easypiechart.min.js"></script>
+
+    <script src="%PUBLIC_URL%/vendors/bootgrid/jquery.bootgrid.updated.min.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/autosize/dist/autosize.min.js"></script>
+    <script src="%PUBLIC_URL%/vendors/bower_components/salvattore/dist/salvattore.min.js"></script>
+
+    <!-- Placeholder for IE9 -->
+    <!--[if IE 9]>
+      <script src="vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js"></script>
+    <![endif]-->
+    <script src="%PUBLIC_URL%/js/flot-charts/curved-line-chart.js"></script>
+    <script src="%PUBLIC_URL%/js/flot-charts/bar-chart.js"></script>
+    <script src="%PUBLIC_URL%/js/charts.js"></script>
+
+    <script src="%PUBLIC_URL%/js/functions.js"></script>
+    <script src="%PUBLIC_URL%/js/actions.js"></script>
+    <script src="%PUBLIC_URL%/js/demo.js"></script>
   </body>
 </html>
