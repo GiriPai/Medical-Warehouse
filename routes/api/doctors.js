@@ -11,6 +11,8 @@ const auth = require("../../middleware/auth");
 // Loading Models
 const Hospital = require("../../models/Hospital");
 const Doctor = require("../../models/Doctor");
+const Record = require("../../models/Record");
+const Report = require("../../models/Report");
 
 // File Upload
 const multer = require("multer");
@@ -82,6 +84,37 @@ router.get("/", async (req, res) => {
   }
 });
 
+// @route   Get api/doctors/ofHospital?filterName=".."&filterEmail="..."
+// @desc    Get all docotors related with hospital
+// @access  Private ( Hospital )
+router.get("/ofHospital", auth, async (req, res) => {
+  let filterName = "";
+  let filterEmail = "";
+  if (req.query.filterName) {
+    filterName = `${req.query.filterName}`;
+  }
+  if (req.query.filterEmail) {
+    filterEmail = `${req.query.filterEmail}`;
+  }
+  try {
+    if (!req.hospital) {
+      res.status(401).msg("You are not authorized to access this url");
+    }
+
+    const doctors = await Doctor.find({
+      hospital: req.hospital.id,
+      name: new RegExp(filterName),
+      email: new RegExp(filterEmail)
+    })
+      .select(["-password", "-admin"])
+      .populate({ path: "hospital", select: "-password" });
+    return res.json(doctors);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
+
 // @route   Get api/doctors/:id
 // @desc    Get doctor details with id
 // @access  Public
@@ -91,6 +124,26 @@ router.get("/:id", async (req, res) => {
       .select(["-password", "-admin"])
       .populate({ path: "hospital", select: "-password" });
     return res.json(doctors);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
+
+// @route   Get api/doctors/:id/activity
+// @desc    Get doctor details with id
+// @access  Public
+router.get("/:id/activity", async (req, res) => {
+  try {
+    const records = await Record.find({ doctor: req.params.id })
+      .select(["-password", "-admin"])
+      .populate(
+        { path: "patient", select: "-password" }
+        // { path: "patient", select: "-password" }
+      )
+      .sort({ createdAt: -1 });
+
+    return res.json(records);
   } catch (err) {
     console.log(err);
     return res.status(500).json({ msg: "Internal Server Error" });
@@ -254,5 +307,69 @@ router.put(
     }
   }
 );
+
+// @route   put api/doctors/:id/status
+// @desc    Update doctor by Hospital ( Doctor Status update Route by Hospital)
+// @access  Private ( Hospital )
+router.put("/:doctor_id/status", auth, async (req, res) => {
+  try {
+    if (!req.hospital) {
+      return res
+        .status(401)
+        .json({ msg: "You are not authorized to access this url" });
+    }
+
+    const doctor = await Doctor.findOne({ _id: req.params.doctor_id });
+
+    console.log(doctor);
+    console.log(req.hospital);
+
+    if (req.hospital.id != doctor.hospital) {
+      return res
+        .status(401)
+        .json({ msg: "You are not authorized to edit this doctor" });
+    }
+
+    const updateDoctor = await Doctor.findOneAndUpdate(req.params.doctor_id, {
+      status: !doctor.status
+    });
+
+    return res.status(200).json({ msg: "Status Updated Successfully" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
+
+// @route   Delete api/doctors/:doctor_id
+// @desc    Delete doctors with ID by Hospital
+// @access  Private (Hospital)
+router.delete("/:doctor_id", auth, async (req, res) => {
+  try {
+    if (!req.hospital) {
+      return res
+        .status(401)
+        .json({ msg: "You are not authorized to access this url" });
+    }
+
+    const doctor = await Doctor.findOneAndDelete({
+      _id: req.params.doctor_id
+    });
+
+    const createdHospital = await Hospital.findById(doctor.hospital);
+
+    removeIndex = createdHospital.doctors
+      .map(doctor => doctor)
+      .indexOf(req.params.doctor_id);
+
+    createdHospital.doctors.splice(removeIndex);
+    await createdHospital.save();
+
+    return res.status(200).json({ msg: "Deletion Successful" });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
 
 module.exports = router;

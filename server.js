@@ -13,7 +13,7 @@ app.use(cors());
 app.use("/uploads", express.static("uploads"));
 
 app.get("/", (req, res) => {
-    res.json("API Running");
+  res.json("API Running");
 });
 
 // Define Routes

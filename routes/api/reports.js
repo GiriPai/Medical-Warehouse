@@ -45,9 +45,9 @@ const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/jpeg" ||
     file.mimetype === "image/png" ||
-    file.mimetype === "image/pdf" ||
-    file.mimetype === "image/msword" ||
-    file.mimetype === "image/vnd.ms-excel"
+    file.mimetype === "application/pdf" ||
+    file.mimetype === "application/msword" ||
+    file.mimetype === "application/vnd.ms-excel"
   ) {
     cb(null, true);
   } else {
@@ -138,7 +138,7 @@ router.post(
   ],
   async (req, res) => {
     try {
-      if (!req.doctor) {
+      if (!req.hospital) {
         return res
           .status(401)
           .json({ error: "You are not authorized to access this route" });
