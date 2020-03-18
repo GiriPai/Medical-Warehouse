@@ -1,4 +1,5 @@
 {
   "jwtSecret": "mysecrettoken",
   "mongoURI": "mongodb://localhost:27017/mware"
+  // "mongoURI": "mongodb+srv://giri:giri@mware-co2xz.mongodb.net/test?retryWrites=true&w=majority"
 }

@@ -115,6 +115,128 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
+// @route   PUT api/patients/update
+// @desc    Update patient profile by current patient
+// @access  Private (patient)
+router.post(
+  "/update",
+  [
+    auth,
+    upload.single("avatar"),
+    [
+      check("name", "Name is required")
+        .not()
+        .isEmpty(),
+      check("registerNumber", "Register Number is required")
+        .not()
+        .isEmpty(),
+      check("email", "Please include a valid email").isEmail(),
+
+      check("dob", "Please include the date")
+        .not()
+        .isEmpty(),
+      check("address", "Please enter the address")
+        .not()
+        .isEmpty(),
+      check("phone", "Please enter the phone number")
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    if (!req.patient) {
+      console.log("here");
+      return res
+        .status(401)
+        .json({ msg: "You are not authorized to access this url" });
+    }
+    console.log(req.body);
+    // const str = JSON.stringify(req.body);
+
+    // console.log(req.body);
+    // console.log(str);
+    // console.log("here patient");
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      registerNumber,
+      name,
+      email,
+      password,
+      dob,
+      gender,
+      phone,
+      address,
+      avatar
+    } = req.body;
+
+    try {
+      let patient = await Patient.findOne({ _id: req.patient.id });
+
+      //  instance of patient
+      if (name != "") patient.name = name;
+      if (email != "") patient.email = email;
+      if (dob != "") patient.dob = dob;
+      if (gender != "") patient.gender = gender;
+      if (phone != "") patient.phone = phone;
+      if (address != "") patient.address = address;
+
+      if (avatar && avatar !== null && avatar !== "") {
+        console.log(avatar, "", req.body.registerNumber);
+        await upload.single("avatar");
+        doctor.avatar = req.file.path;
+      }
+
+      //bcrypt
+      if (password != "" && password != null) {
+        const salt = await bcrypt.genSalt(10);
+        patient.password = await bcrypt.hash(password, salt);
+      }
+
+      await patient.save();
+
+      createdPatient = await Patient.findOne(patient._id);
+
+      const pdfTemplate = require("../../uploads/patient/templates/idTemplate");
+
+      pdf
+        .create(
+          pdfTemplate({
+            name: `${createdPatient.name}`,
+            registerNumber: `${createdPatient.registerNumber}`,
+            id: `${createdPatient._id}`,
+            dob: `${createdPatient.dob}`,
+            avatar: `${createdPatient.avatar}`,
+            qrcode: `${createdPatient.qrcode}`,
+            address: `${createdPatient.address}`,
+            gender: `${createdPatient.gender}`
+          }),
+          {}
+        )
+        .toFile(
+          `uploads/patient/cards/${createdPatient.registerNumber}.pdf`,
+          err => {
+            if (err) {
+              return console.log("error");
+            }
+          }
+        );
+
+      createdPatient.idCard = `uploads/patient/cards/${createdPatient.registerNumber}.pdf`;
+      createdPatient.save();
+
+      return res.json(createdPatient);
+    } catch (err) {
+      console.error(err);
+      return res.status(500).send("Internal Server Error");
+    }
+  }
+);
+
 // @route   POST api/patients/
 // @desc    Creating a Patient
 // @access  Private (admin)
@@ -318,122 +440,6 @@ router.put(
       if (phone != "") patient.phone = phone;
       if (address != "") patient.address = address;
       patient.isActive = isActive;
-
-      //bcrypt
-      if (password != "" && password != null) {
-        const salt = await bcrypt.genSalt(10);
-        patient.password = await bcrypt.hash(password, salt);
-      }
-
-      await patient.save();
-
-      createdPatient = await Patient.findOne(patient._id);
-
-      const pdfTemplate = require("../../uploads/patient/templates/idTemplate");
-
-      pdf
-        .create(
-          pdfTemplate({
-            name: `${createdPatient.name}`,
-            registerNumber: `${createdPatient.registerNumber}`,
-            id: `${createdPatient._id}`,
-            dob: `${createdPatient.dob}`,
-            avatar: `${createdPatient.avatar}`,
-            qrcode: `${createdPatient.qrcode}`,
-            address: `${createdPatient.address}`,
-            gender: `${createdPatient.gender}`
-          }),
-          {}
-        )
-        .toFile(
-          `uploads/patient/cards/${createdPatient.registerNumber}.pdf`,
-          err => {
-            if (err) {
-              return console.log("error");
-            }
-          }
-        );
-
-      createdPatient.idCard = `uploads/patient/cards/${createdPatient.registerNumber}.pdf`;
-      createdPatient.save();
-
-      return res.json(createdPatient);
-    } catch (err) {
-      console.error(err);
-      return res.status(500).send("Internal Server Error");
-    }
-  }
-);
-
-// @route   PUT api/patients/update
-// @desc    Update patient profile by current patient
-// @access  Private (patient)
-router.post(
-  "/update",
-  [
-    auth,
-    // upload.single("avatar"),
-    [
-      check("name", "Name is required")
-        .not()
-        .isEmpty(),
-      check("registerNumber", "Register Number is required")
-        .not()
-        .isEmpty(),
-      check("email", "Please include a valid email").isEmail(),
-
-      check("dob", "Please include the date")
-        .not()
-        .isEmpty(),
-      check("address", "Please enter the address")
-        .not()
-        .isEmpty(),
-      check("phone", "Please enter the phone number")
-        .not()
-        .isEmpty()
-    ]
-  ],
-  async (req, res) => {
-    console.log("here patient");
-    if (!req.patient) {
-      console.log("here");
-      return res
-        .status(401)
-        .json({ msg: "You are not authorized to access this url" });
-    }
-    console.log(req.body);
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const {
-      registerNumber,
-      name,
-      email,
-      password,
-      dob,
-      gender,
-      phone,
-      address
-    } = req.body;
-
-    try {
-      let patient = await Patient.findOne({ _id: req.patient.id });
-
-      //  instance of patient
-      if (name != "") patient.name = name;
-      if (email != "") patient.email = email;
-      if (dob != "") patient.dob = dob;
-      if (gender != "") patient.gender = gender;
-      if (phone != "") patient.phone = phone;
-      if (address != "") patient.address = address;
-
-      if (avatar && avatar !== null && avatar !== "") {
-        console.log(avatar, "", req.body.registerNumber);
-        await upload.single("avatar");
-        doctor.avatar = req.file.path;
-      }
 
       //bcrypt
       if (password != "" && password != null) {

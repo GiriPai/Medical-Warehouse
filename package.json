@@ -9,7 +9,7 @@
     "admin": "npm start --prefix ../admin-ui",
     "hospital": "npm start --prefix ../hospital-ui",
     "doctor": "npm start --prefix ../doctor-ui",
-    "patient": "npm start --prefix ../client-ui",
+    "patient": "npm start --prefix ../patient-ui",
     "dev": "concurrently \"npm run server\" \"npm run admin\"  \"npm run hospital\"  \"npm run doctor\" \"npm run patient\" "
   },
   "author": "Giri Pai U",

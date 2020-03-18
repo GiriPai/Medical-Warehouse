@@ -10,6 +10,9 @@ const auth = require("../../middleware/auth");
 
 // Loading Models
 const Admin = require("../../models/Admin");
+const Doctor = require("../../models/Doctor");
+const Hospital = require("../../models/Hospital");
+const Patient = require("../../models/Patient");
 
 // File upload
 const multer = require("multer");
@@ -167,5 +170,25 @@ router.post(
     }
   }
 );
+
+// @route   GET api/admin/home
+// @desc    Get All Admins
+// @access  Public
+router.get("/home", auth, async (req, res) => {
+  try {
+    const admins = await Admin.find();
+    const doctors = await Doctor.find();
+    const hospitals = await Hospital.find();
+    const patients = await Patient.find();
+    if (!admins) {
+      return res.json({ msg: "No Admins Available" });
+    }
+
+    return res.json({ admins, doctors, hospitals, patients });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+});
 
 module.exports = router;
