@@ -134,13 +134,13 @@ const CreateHospital = ({ addHospital, history }) => {
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="registerNumber">
-                                                            registerNumber
+                                                            Register Number
                                                         </label>
                                                         <input
                                                             type="text"
                                                             className="form-control"
                                                             id="registerNumber"
-                                                            placeholder="registerNumber"
+                                                            placeholder="Register Number"
                                                             name="registerNumber"
                                                             value={
                                                                 registerNumber

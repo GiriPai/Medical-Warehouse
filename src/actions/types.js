@@ -33,3 +33,6 @@ export const UPDATE_PATIENT = "UPDATE_PATIENT";
 export const DELETE_PATIENT = "DELETE_PATIENT";
 
 export const CLEAR_PATIENTS = "CLEAR_PATIENTS";
+
+export const ALL_DETAILS = "ALL_DETAILS";
+export const DETAILS_ERROR = "DETAILS_ERROR";
