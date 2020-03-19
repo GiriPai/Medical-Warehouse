@@ -37,7 +37,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route exact path="/sign-in" component={SignIn} />
+          <Route exact path="/" component={SignIn} />
           <PrivateRoute exact path="/home" component={Home} title="Home" />
           <PrivateRoute
             exact

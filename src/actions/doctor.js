@@ -13,7 +13,6 @@ import { loadUser } from "./auth";
 export const getDoctors = () => async dispatch => {
   try {
     const res = await axios.get("/api/doctors/ofHospital");
-    console.log(res);
     dispatch({
       type: GET_DOCTORS,
       payload: res.data

@@ -15,15 +15,18 @@ const Doctors = ({ getDoctors, doctors, loading }) => {
   }, []);
 
   const [modal, setModal] = useState({
-    modalDoctor: "",
+    content: "",
+    id: "",
     modalFade: "",
     display: "none"
   });
 
-  const { modalFade, display } = modal;
+  const { modalFade, display, id, content } = modal;
 
-  const showModal = () => {
+  const showModal = (doctorContent, doctorId) => {
     setModal({
+      content: doctorContent,
+      id: doctorId,
       modalFade: "in",
       display: "block"
     });
@@ -31,6 +34,8 @@ const Doctors = ({ getDoctors, doctors, loading }) => {
 
   const hideModal = e => {
     setModal({
+      content: "",
+      id: "",
       modalFade: "",
       display: "none"
     });
@@ -96,20 +101,19 @@ const Doctors = ({ getDoctors, doctors, loading }) => {
                               View
                             </Link>{" "}
                             <button
-                              onClick={e => showModal()}
-                              content={doctor}
+                              onClick={e => showModal(doctor, doctor._id)}
                               className="btn btn-sm btn-success"
                             >
                               Edit
                             </button>
                           </td>
                         </tr>
-                        <Modal
+                        {/* <Modal
                           doctor={doctor}
                           modalFade={modalFade}
                           hideModal={hideModal}
                           display={display}
-                        />
+                        /> */}
                       </Fragment>
                     ))
                   ) : null}
@@ -119,6 +123,14 @@ const Doctors = ({ getDoctors, doctors, loading }) => {
           </div>
         </div>
       </section>
+      <Modal
+        // doctor={doctor}
+        content={content}
+        id={id}
+        modalFade={modalFade}
+        hideModal={hideModal}
+        display={display}
+      />
     </Fragment>
   );
 };

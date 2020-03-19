@@ -27,7 +27,7 @@ const PrivateRoute = ({
   return loading ? (
     <Preloader />
   ) : !isAuthenticated ? (
-    <Redirect to="/sign-in" />
+    <Redirect to="/" />
   ) : user === null ? (
     <Preloader />
   ) : (

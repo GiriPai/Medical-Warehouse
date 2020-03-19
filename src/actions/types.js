@@ -18,8 +18,10 @@ export const ADD_DOCTOR = "ADD_DOCTOR";
 export const GET_ACTIVITY = "GET_ACTIVITY";
 export const ACTIVITY_ERROR = "ACTIVITY_ERROR";
 
-// export const GET_PATIENT = "GET_PATIENT";
-// export const CLEAR_PATIENT = "CLEAR_PATIENT";
+export const GET_PATIENT = "GET_PATIENT";
+export const ADD_REPORT = "ADD_REPORT";
+export const CLEAR_PATIENT = "CLEAR_PATIENT";
+export const PATIENT_ERROR = "PATIENT_ERROR";
 
 // export const UPDATE_ERROR = "UPDATE_ERROR";
 // export const UPDATE_PROFILE = "UPDATE_PROFILE";
