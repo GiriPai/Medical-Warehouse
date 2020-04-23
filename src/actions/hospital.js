@@ -12,7 +12,7 @@ import {
 export const getHospitals = () => async dispatch => {
   try {
     const res = await axios.get("/api/hospitals");
-
+    console.log(res.data)
     dispatch({
       type: GET_HOSPITALS,
       payload: res.data

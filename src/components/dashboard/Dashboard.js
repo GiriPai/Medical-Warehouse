@@ -12,13 +12,13 @@ const Dashboard = ({
   getAllDetails,
   auth,
   profile: { profile, loading },
-  details
+  details,
 }) => {
   useEffect(() => {
     getCurrentProfile();
     getAllDetails();
   }, []);
-  return loading && profile === null ? (
+  return loading && profile === null && details && details === null ? (
     <Spinner />
   ) : details.loading ? (
     <Spinner />
@@ -34,7 +34,7 @@ const Dashboard = ({
           <div className="container-fluid">
             {/* Small boxes (Stat box) */}
             <div className="row">
-              <div className="col-lg-3 col-6">
+              <div className="col-lg-4 col-6">
                 {/* small box */}
                 <div className="small-box bg-info">
                   <div className="inner">
@@ -51,7 +51,7 @@ const Dashboard = ({
                 </div>
               </div>
               {/* ./col */}
-              <div className="col-lg-3 col-6">
+              <div className="col-lg-4 col-6">
                 {/* small box */}
                 <div className="small-box bg-success">
                   <div className="inner">
@@ -67,7 +67,7 @@ const Dashboard = ({
                 </div>
               </div>
               {/* ./col */}
-              <div className="col-lg-3 col-6">
+              <div className="col-lg-4 col-6">
                 {/* small box */}
                 <div className="small-box bg-warning">
                   <div className="inner">
@@ -78,22 +78,6 @@ const Dashboard = ({
                     <i className="ion ion-person-add" />
                   </div>
                   <Link to="/patients" className="small-box-footer">
-                    More info <i className="fas fa-arrow-circle-right" />
-                  </Link>
-                </div>
-              </div>
-              {/* ./col */}
-              <div className="col-lg-3 col-6">
-                {/* small box */}
-                <div className="small-box bg-danger">
-                  <div className="inner">
-                    <h3>65</h3>
-                    <p>Unique Visitors</p>
-                  </div>
-                  <div className="icon">
-                    <i className="ion ion-pie-graph" />
-                  </div>
-                  <Link to="#" className="small-box-footer">
                     More info <i className="fas fa-arrow-circle-right" />
                   </Link>
                 </div>
@@ -114,13 +98,13 @@ Dashboard.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
   getAllDetails: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   auth: state.auth,
   profile: state.profile,
-  details: state.admin
+  details: state.admin,
 });
 
 export default connect(mapStateToProps, { getCurrentProfile, getAllDetails })(
