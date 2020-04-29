@@ -69,7 +69,10 @@ const Modal = ({ content, id, modalFade, display, hideModal }) => {
             <div className="modal-body">
               <form>
                 <div className="row">
-                  <div className="col-sm-6">
+                  <div className="col-sm-3">
+                    <label>Register Number</label>
+                  </div>
+                  <div className="col-sm-5">
                     <div className="form-group fg-float m-b-30">
                       <div className="fg-line">
                         <input
@@ -79,11 +82,10 @@ const Modal = ({ content, id, modalFade, display, hideModal }) => {
                           value={registerNumber}
                           onChange={e => onChange(e)}
                         />
-                        <label className="fg-label">Register Number</label>
                       </div>
                     </div>
                   </div>
-                  <div className="col-sm-3">
+                  <div className="col-sm-2">
                     <div className="radio m-b-15">
                       <label>
                         <input
@@ -99,7 +101,7 @@ const Modal = ({ content, id, modalFade, display, hideModal }) => {
                       </label>
                     </div>
                   </div>
-                  <div className="col-sm-3">
+                  <div className="col-sm-2">
                     <div className="radio m-b-15">
                       <label>
                         <input
@@ -116,8 +118,12 @@ const Modal = ({ content, id, modalFade, display, hideModal }) => {
                     </div>
                   </div>
                 </div>
+
                 <div className="row">
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
+                    <label>Name</label>
+                  </div>
+                  <div className="col-sm-4">
                     <div className="form-group fg-float m-b-30">
                       <div className="fg-line">
                         <input
@@ -127,11 +133,13 @@ const Modal = ({ content, id, modalFade, display, hideModal }) => {
                           value={name}
                           onChange={e => onChange(e)}
                         />
-                        <label className="fg-label">Name</label>
                       </div>
                     </div>
                   </div>
-                  <div className="col-sm-6">
+                  <div className="col-sm-2">
+                    <label>Designation</label>
+                  </div>
+                  <div className="col-sm-4">
                     <div className="form-group fg-float m-b-30">
                       <div className="fg-line">
                         <input
@@ -141,67 +149,97 @@ const Modal = ({ content, id, modalFade, display, hideModal }) => {
                           value={designation}
                           onChange={e => onChange(e)}
                         />
-                        <label className="fg-label">Designation</label>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="form-group fg-float m-b-30">
-                  <div className="fg-line">
-                    <input
-                      type="email"
-                      className="form-control input-sm"
-                      name="email"
-                      value={email}
-                      onChange={e => onChange(e)}
-                    />
-                    <label className="fg-label">Email address</label>
+                <div className="row">
+                  <div className="col-sm-3">Email Address</div>
+                  <div className="col-sm-9">
+                    <div className="form-group fg-float m-b-30">
+                      <div className="fg-line">
+                        <input
+                          type="email"
+                          className="form-control input-sm"
+                          name="email"
+                          value={email}
+                          onChange={e => onChange(e)}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="form-group fg-float m-b-30">
-                  <div className="fg-line">
-                    <input
-                      type="password"
-                      className="form-control input-sm"
-                      name="password"
-                      value={password}
-                      onChange={e => onChange(e)}
-                    />
-                    <label className="fg-label">Password</label>
+
+                <div className="row">
+                  <div className="col-sm-3">
+                    <label>Password</label>
+                  </div>
+                  <div className="col-sm-9">
+                    <div className="form-group fg-float m-b-30">
+                      <div className="fg-line">
+                        <input
+                          type="password"
+                          className="form-control input-sm"
+                          name="password"
+                          value={password}
+                          onChange={e => onChange(e)}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="form-group fg-float m-b-30">
-                  <div className="fg-line">
-                    <input
-                      type="email"
-                      className="form-control input-sm"
-                      name="phone"
-                      value={phone}
-                      onChange={e => onChange(e)}
-                    />
-                    <label className="fg-label">Contact Number</label>
+
+                <div className="row">
+                  <div className="col-sm-3">
+                    <label>Contact Number</label>
+                  </div>
+                  <div className="col-sm-9">
+                    <div className="form-group fg-float m-b-30">
+                      <div className="fg-line">
+                        <input
+                          type="email"
+                          className="form-control input-sm"
+                          name="phone"
+                          value={phone}
+                          onChange={e => onChange(e)}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="form-group fg-float">
-                  <div className="fg-line">
-                    <textarea
-                      className="form-control auto-size input-sm"
-                      name="address"
-                      value={address}
-                      onChange={e => onChange(e)}
-                    />
-                    <label className="fg-label">Address</label>
+
+                <div className="row">
+                  <div className="col-sm-3">
+                    <label>Address</label>
+                  </div>
+                  <div className="col-sm-9">
+                    <div className="form-group fg-float">
+                      <div className="fg-line">
+                        <textarea
+                          className="form-control auto-size input-sm"
+                          name="address"
+                          value={address}
+                          onChange={e => onChange(e)}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="form-group fg-float">
-                  <div className="fg-line">
-                    <input
-                      type="file"
-                      className="form-control input-sm"
-                      name="avatar"
-                      onChange={e => onChangeFileHandler(e)}
-                    />
+
+                <div className="row">
+                  <div className="col-sm-3">Avatar</div>
+                  <div className="col-sm-9">
+                    <div className="form-group fg-float">
+                      <div className="fg-line">
+                        <input
+                          type="file"
+                          className="form-control input-sm"
+                          name="avatar"
+                          onChange={e => onChangeFileHandler(e)}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </form>

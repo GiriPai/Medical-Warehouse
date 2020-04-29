@@ -55,13 +55,19 @@ const AddDoctor = ({ history, addDoctor }) => {
         <Alert />
         <div className="card-header ch-alt">
           <h2>
-            Hospital Form <small>Add a Hospital</small>
+            Doctor Form <small>Add a Doctor</small>
           </h2>
         </div>
         <div className="card-body card-padding">
           <form onSubmit={e => onSubmit(e)}>
             <div className="row">
-              <div className="col-sm-6">
+              <div className="col-sm-3">
+                <div className="form-group fg-float m-b-30">
+                  <label>Register Number</label>
+                </div>
+              </div>
+
+              <div className="col-sm-5">
                 <div className="form-group fg-float m-b-30">
                   <div className="fg-line">
                     <input
@@ -70,12 +76,13 @@ const AddDoctor = ({ history, addDoctor }) => {
                       name="registerNumber"
                       value={registerNumber}
                       onChange={e => onChange(e)}
+                      // placeholder="Register Number"
                     />
-                    <label className="fg-label">Register Number</label>
+                  
                   </div>
                 </div>
               </div>
-              <div className="col-sm-3">
+              <div className="col-sm-2">
                 <div className="radio m-b-15">
                   <label>
                     <input
@@ -88,7 +95,7 @@ const AddDoctor = ({ history, addDoctor }) => {
                   </label>
                 </div>
               </div>
-              <div className="col-sm-3">
+              <div className="col-sm-2">
                 <div className="radio m-b-15">
                   <label>
                     <input
@@ -104,88 +111,138 @@ const AddDoctor = ({ history, addDoctor }) => {
             </div>
 
             <div className="form-group fg-float m-b-30">
-              <div className="fg-line">
-                <input
-                  type="text"
-                  className="form-control input-sm"
-                  name="name"
-                  value={name}
-                  onChange={e => onChange(e)}
-                />
-                <label className="fg-label">Name</label>
+              <div className="row">
+                <div className="col-sm-3">
+                  <label>Name</label>
+                </div>
+                <div className="col-sm-9">
+                  <div className="fg-line">
+                    <input
+                      type="text"
+                      className="form-control input-sm"
+                      name="name"
+                      value={name}
+                      onChange={e => onChange(e)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+
             <div className="form-group fg-float m-b-30">
-              <div className="fg-line">
-                <input
-                  type="text"
-                  className="form-control input-sm"
-                  name="designation"
-                  value={designation}
-                  onChange={e => onChange(e)}
-                />
-                <label className="fg-label">Designation</label>
+              <div className="row">
+                <div className="col-sm-3">
+                  <label>Designation</label>
+                </div>
+                <div className="col-sm-9">
+                  <div className="fg-line">
+                    <input
+                      type="text"
+                      className="form-control input-sm"
+                      name="designation"
+                      value={designation}
+                      onChange={e => onChange(e)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+
             <div className="form-group fg-float m-b-30">
-              <div className="fg-line">
-                <input
-                  type="email"
-                  className="form-control input-sm"
-                  name="email"
-                  value={email}
-                  onChange={e => onChange(e)}
-                />
-                <label className="fg-label">Email address</label>
+              <div className="row">
+                <div className="col-sm-3">
+                  <label>Email Address</label>
+                </div>
+                <div className="col-sm-9">
+                  <div className="fg-line">
+                    <input
+                      type="email"
+                      className="form-control input-sm"
+                      name="email"
+                      value={email}
+                      onChange={e => onChange(e)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+
             <div className="form-group fg-float m-b-30">
-              <div className="fg-line">
-                <input
-                  type="password"
-                  className="form-control input-sm"
-                  name="password"
-                  value={password}
-                  onChange={e => onChange(e)}
-                />
-                <label className="fg-label">Password</label>
+              <div className="row">
+                <div className="col-sm-3">
+                  <label>Password</label>
+                </div>
+                <div className="col-sm-9">
+                  <div className="fg-line">
+                    <input
+                      type="password"
+                      className="form-control input-sm"
+                      name="password"
+                      value={password}
+                      onChange={e => onChange(e)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+
             <div className="form-group fg-float m-b-30">
-              <div className="fg-line">
-                <input
-                  type="phone"
-                  className="form-control input-sm"
-                  name="phone"
-                  value={phone}
-                  onChange={e => onChange(e)}
-                />
-                <label className="fg-label">Contact Number</label>
+              <div className="row">
+                <div className="col-sm-3">
+                  <label>Contact Number</label>
+                </div>
+                <div className="col-sm-9">
+                  <div className="fg-line">
+                    <input
+                      type="phone"
+                      className="form-control input-sm"
+                      name="phone"
+                      value={phone}
+                      onChange={e => onChange(e)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="form-group fg-float">
-              <div className="fg-line">
-                <textarea
-                  className="form-control auto-size input-sm"
-                  name="address"
-                  value={address}
-                  onChange={e => onChange(e)}
-                />
-                <label className="fg-label">Address</label>
+
+            <div className="form-group fg-float m-b-30">
+              <div className="row">
+                <div className="col-sm-3">
+                  <label>Address</label>
+                </div>
+                <div className="col-sm-9">
+                  <div className="fg-line">
+                    <textarea
+                      className="form-control auto-size input-sm"
+                      name="address"
+                      value={address}
+                      onChange={e => onChange(e)}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="form-group fg-float">
-              <div className="fg-line">
-                <input
-                  type="file"
-                  className="form-control input-sm"
-                  name="avatar"
-                  onChange={e =>
-                    setFormData({ ...formData, avatar: e.target.files[0] })
-                  }
-                />
+
+            <div className="form-group fg-float m-b-30">
+              <div className="row">
+                <div className="col-sm-3">
+                  <label>Avatar</label>
+                </div>
+                <div className="col-sm-9">
+                  <div className="fg-line">
+                    <input
+                      type="file"
+                      className="form-control input-sm"
+                      name="avatar"
+                      onChange={e =>
+                        setFormData({ ...formData, avatar: e.target.files[0] })
+                      }
+                    />
+                  </div>
+                </div>
               </div>
             </div>
+
 
             <div className="clearfix" />
             <div className="m-t-20">

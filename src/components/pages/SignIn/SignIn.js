@@ -41,6 +41,7 @@ const SignIn = ({ login, isAuthenticated }) => {
           <div className="lb-body">
             <form onSubmit={e => onSubmit(e)}>
               <div className="form-group fg-float">
+                <label>Email</label>
                 <div className="fg-line">
                   <input
                     type="text"
@@ -48,11 +49,13 @@ const SignIn = ({ login, isAuthenticated }) => {
                     name="email"
                     value={email}
                     onChange={e => onChange(e)}
+                    placeholder="Enter your Email Address"
                   />
-                  <label className="fg-label">Email Address</label>
                 </div>
               </div>
               <div className="form-group fg-float">
+                <label>Password</label>
+
                 <div className="fg-line">
                   <input
                     type="password"
@@ -60,8 +63,8 @@ const SignIn = ({ login, isAuthenticated }) => {
                     name="password"
                     value={password}
                     onChange={e => onChange(e)}
+                    placeholder="Enter your Password"
                   />
-                  <label className="fg-label">Password</label>
                 </div>
               </div>
               <button type="submit" className="btn palette-Blue bg">

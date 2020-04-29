@@ -22,12 +22,12 @@ const Header = ({ user, logout }) => {
           </div>
         </div>
         <ul className="pull-right h-menu">
-          <li className="hm-search-trigger">
+          {/* <li className="hm-search-trigger">
             <a href="#" data-ma-action="search-open">
               <i className="hm-icon zmdi zmdi-search" />
             </a>
-          </li>
-          <li
+          </li> */}
+          {/* <li
             className="hm-alerts"
             data-user-alert="sua-messages"
             data-ma-action="sidebar-open"
@@ -36,19 +36,21 @@ const Header = ({ user, logout }) => {
             <a href="#">
               <i className="hm-icon zmdi zmdi-notifications" />
             </a>
-          </li>
+          </li> */}
           <li className="dropdown hm-profile">
             <a data-toggle="dropdown" href="#">
               <img src={`/${user.avatar}`} alt="user" />
             </a>
             <ul className="dropdown-menu pull-right dm-icon">
               <li>
-                <a href="profile-about.html">
-                  <i className="zmdi zmdi-account" /> View Profile
+                <a href="!#">
+                  <i className="zmdi zmdi-account" /> Welcome
                 </a>
               </li>
+              <hr />
+
               <li>
-                <a href="#" onClick={e => logout()}>
+                <a href="#" onClick={(e) => logout()}>
                   <i className="zmdi zmdi-time-restore" /> Logout
                 </a>
               </li>
