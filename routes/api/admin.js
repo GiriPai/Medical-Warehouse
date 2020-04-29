@@ -13,22 +13,23 @@ const Admin = require("../../models/Admin");
 const Doctor = require("../../models/Doctor");
 const Hospital = require("../../models/Hospital");
 const Patient = require("../../models/Patient");
+const Record = require("../../models/Record");
 
 // File upload
 const multer = require("multer");
 
 const storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: function (req, file, cb) {
     cb(null, "uploads/admin/avatar");
   },
 
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     if (file.mimetype === "image/jpeg") {
       cb(null, req.body.email + ".jpg");
     } else if (file.mimetype === "image/png") {
       cb(null, req.body.email + ".png");
     }
-  }
+  },
 });
 
 const fileFilter = (req, file, cb) => {
@@ -42,9 +43,9 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1024 * 1024 * 5
+    fileSize: 1024 * 1024 * 5,
   },
-  fileFilter: fileFilter
+  fileFilter: fileFilter,
 });
 // End File Upload
 
@@ -75,7 +76,7 @@ router.get("/me", [auth], async (req, res) => {
         "registerNumber",
         "email",
         "division",
-        "phone"
+        "phone",
       ])
       .select("-password");
 
@@ -93,23 +94,15 @@ router.post(
   "/",
   [
     upload.single("avatar"),
-    check("name", "Name is required")
-      .not()
-      .isEmpty(),
-    check("registerNumber", "Register Number is required")
-      .not()
-      .isEmpty(),
+    check("name", "Name is required").not().isEmpty(),
+    check("registerNumber", "Register Number is required").not().isEmpty(),
     check("email", "Please include a valid email").isEmail(),
     check(
       "password",
       "Please enter a password with 6 or more characters"
     ).isLength({ min: 6 }),
-    check("division", "Please include the division")
-      .not()
-      .isEmpty(),
-    check("phone", "Phone number is required")
-      .not()
-      .isEmpty()
+    check("division", "Please include the division").not().isEmpty(),
+    check("phone", "Phone number is required").not().isEmpty(),
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -135,7 +128,7 @@ router.post(
         email,
         password,
         division,
-        phone
+        phone,
       });
 
       //  bcryptjs
@@ -149,8 +142,8 @@ router.post(
       const payload = {
         user: {
           id: admin._id,
-          role: "admin"
-        }
+          role: "admin",
+        },
       };
 
       await jwt.sign(
@@ -180,10 +173,10 @@ router.get("/home", auth, async (req, res) => {
     const doctors = await Doctor.find();
     const hospitals = await Hospital.find();
     const patients = await Patient.find();
+
     if (!admins) {
       return res.json({ msg: "No Admins Available" });
     }
-
     return res.json({ admins, doctors, hospitals, patients });
   } catch (err) {
     console.error(err);
