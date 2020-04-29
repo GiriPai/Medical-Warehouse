@@ -52,7 +52,7 @@ const Patient = ({ match, patient, loading, getPatient, history }) => {
   ) : (
     <Fragment>
       <div className="content">
-        <Alert />
+    
         <div className="container-fluid">
           <div className="col-md-12 col-12 mr-auto ml-auto">
             {/*      Wizard container        */}
